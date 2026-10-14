@@ -1,0 +1,68 @@
+/* Restrained cyber details keep the established palette without competing with content. */
+body {
+  background-color: var(--ink);
+  background-image:
+    radial-gradient(ellipse 60% 40% at 85% 0%, rgba(186, 2, 2, 0.16), transparent 70%),
+    linear-gradient(rgba(186, 2, 2, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(186, 2, 2, 0.035) 1px, transparent 1px);
+  background-size: auto, 56px 56px, 56px 56px;
+  background-attachment: fixed;
+}
+
+::selection { background: var(--signal); color: #fff; }
+
+/* Nav */
+.nav { border-bottom-color: rgba(186, 2, 2, 0.65); box-shadow: 0 6px 24px -16px rgba(186, 2, 2, 0.7); }
+.nav-links a { font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.95rem; }
+.nav-links a::after { background: var(--signal-hi); }
+.brand { text-transform: uppercase; letter-spacing: 0.08em; }
+
+/* Headings */
+.h2 { display: flex; align-items: center; gap: 0.75rem; }
+.h2::before { content: ''; flex: none; width: 1.6rem; height: 2px; background: var(--signal-hi); }
+
+/* Hero */
+.hero h1 {
+  color: #fff; text-transform: uppercase;
+}
+.hero h1 .line { padding-inline: 0.05em; }
+
+/* Why */
+.why { background: linear-gradient(180deg, rgba(186, 2, 2, 0.06), transparent); color: var(--ice); border-block: 1px solid var(--line); }
+.why-list li, .why-list li:last-child {
+  border: 0; border-left: 2px solid rgba(186, 2, 2, 0.65);
+  padding: 1rem 0 1rem 1.5rem; margin-bottom: 0.75rem;
+  background: linear-gradient(90deg, rgba(186, 2, 2, 0.09), transparent 70%);
+}
+.why-list h3 { color: #fff; }
+.why-list p { color: #d8cbd1; }
+
+/* Tiles, calendar, board */
+.field-tile {
+  border: 1px solid var(--line); border-left: 2px solid var(--signal);
+  border-radius: 10px; background: linear-gradient(110deg, rgba(186, 2, 2, 0.11), rgba(18, 7, 13, 0.35));
+}
+.field-tile:hover { border-color: rgba(255, 59, 59, 0.65); box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18); transform: translateY(-3px); }
+.cal-section { background: transparent; border-block: 1px solid var(--line); }
+.cal, .board-wrap { background: rgba(18, 7, 13, 0.85); border-color: var(--line); border-radius: 14px; }
+.cal-day { font-family: var(--font-mono); }
+.cal-day.is-selected { background: var(--cyan); color: #07060a; }
+.cal-day.is-today { box-shadow: inset 0 0 0 1px var(--cyan); }
+.cal-nav button, .pano-controls button { border-radius: 8px; }
+.cal-nav button:hover, .pano-controls button:hover:not(:disabled) { background: rgba(186, 2, 2, 0.18); border-color: var(--signal-hi); }
+.ev-status { font-family: var(--font-mono); }
+.ev-link .ev-status { color: var(--cyan); }
+
+/* Panorama */
+.pano-item { border-radius: 12px; outline-color: var(--line); }
+.pano-ph { border-color: var(--line); }
+
+/* Pages */
+.page-head h1, .event h2 { color: #fff; }
+.path-btn { border-left-color: rgba(186, 2, 2, 0.5); }
+.path-btn[aria-current='true'] { border-left-color: var(--signal-hi); }
+.steps li::before { box-shadow: 0 0 0 4px rgba(255, 59, 59, 0.1); }
+.board-cell { border-color: var(--line); }
+.board-cell.is-solved { box-shadow: 0 0 14px rgba(186, 2, 2, 0.3); }
+.note { border-left-color: var(--signal-hi); }
+.event { border-top-color: var(--signal); }
