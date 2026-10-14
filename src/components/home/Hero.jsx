@@ -12,12 +12,12 @@ export default function Hero() {
         loop
         muted
         playsInline
-        preload="metadata"
+        preload="auto"
         aria-hidden="true"
         tabIndex={-1}
       />
       <div className="hero-video-shade" aria-hidden="true" />
-      <img className="hero-background" src={homepageBackground} alt="" aria-hidden="true" />
+      <img className="hero-background" src={homepageBackground} alt="" aria-hidden="true" loading="eager" />
 
       <div className="container hero-copy">
         <h1>

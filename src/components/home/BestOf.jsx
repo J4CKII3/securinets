@@ -34,7 +34,7 @@ export default function BestOf() {
             <img
               src={item.src}
               alt={duplicate ? '' : item.alt}
-              decoding="async"
+              loading="eager"
               draggable={false}
             />
           )}

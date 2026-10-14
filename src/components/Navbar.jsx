@@ -20,7 +20,7 @@ export default function Navbar() {
     <header className="nav">
       <div className="container nav-inner">
         <Link to="/" className="brand" aria-label={`${site.name} home`}>
-          <img className="brand-logo" src={clubLogo} alt="" />
+          <img className="brand-logo" src={clubLogo} alt="" loading="eager" />
           <span>{site.name}</span>
         </Link>
 

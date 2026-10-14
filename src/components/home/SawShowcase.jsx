@@ -19,7 +19,7 @@ export default function SawShowcase() {
           <img
             src={photo.src}
             alt={duplicate ? '' : photo.alt}
-            decoding="async"
+            loading="eager"
             draggable={false}
           />
         </figure>

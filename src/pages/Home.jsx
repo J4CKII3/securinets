@@ -27,7 +27,7 @@ export default function Home() {
           role="status"
           aria-label="Loading homepage"
         >
-          <img src={introImage} alt="" aria-hidden="true" />
+          <img src={introImage} alt="" aria-hidden="true" loading="eager" />
         </div>
       )}
       <Hero />

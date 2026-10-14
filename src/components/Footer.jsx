@@ -29,7 +29,7 @@ export default function Footer() {
       <div className="container footer-inner">
         <div className="footer-main">
           <div className="footer-brand">
-            <img src={clubLogo} alt={`${site.name} logo`} />
+            <img src={clubLogo} alt={`${site.name} logo`} loading="eager" />
             <a
               className="footer-address"
               href={site.addressUrl}
