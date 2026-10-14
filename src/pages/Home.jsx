@@ -11,8 +11,8 @@ export default function Home() {
   const [introMounted, setIntroMounted] = useState(true);
 
   useEffect(() => {
-    const fadeTimer = window.setTimeout(() => setIntroVisible(false), 800);
-    const removeTimer = window.setTimeout(() => setIntroMounted(false), 1000);
+    const fadeTimer = window.setTimeout(() => setIntroVisible(false), 1800);
+    const removeTimer = window.setTimeout(() => setIntroMounted(false), 2000);
     return () => {
       window.clearTimeout(fadeTimer);
       window.clearTimeout(removeTimer);

@@ -8,7 +8,7 @@
 }
 .home-intro.is-fading { opacity: 0; pointer-events: none; }
 .home-intro img {
-  display: block; width: clamp(3.5rem, 12vw, 5rem); aspect-ratio: 1;
+  display: block; width: clamp(8rem, 24vw, 12rem); aspect-ratio: 1;
   object-fit: contain; border-radius: 50%;
   filter: drop-shadow(0 0 1.25rem rgba(255, 59, 59, 0.3));
 }
