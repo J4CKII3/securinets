@@ -30,7 +30,6 @@ function LatestWorkshops() {
           <img
             src={photo.src}
             alt={duplicate ? '' : photo.alt}
-            loading="lazy"
             decoding="async"
             draggable={false}
           />

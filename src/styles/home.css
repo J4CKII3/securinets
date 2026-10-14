@@ -162,7 +162,7 @@
 .bestof { overflow: hidden; padding-bottom: clamp(3rem, 7vw, 5.5rem); }
 .bestof .section-head { margin-bottom: 0; }
 .pano {
-  --item-w: clamp(240px, 28vw, 380px);
+  --item-w: clamp(228px, 27vw, 360px);
   --item-gap: clamp(0.75rem, 2vw, 1.5rem);
   overflow: hidden;
   padding-block: 3rem;
@@ -187,7 +187,7 @@
 }
 .pano-ph p { font: 600 1.25rem var(--font-display); display: grid; gap: 0.35rem; }
 @media (max-width: 600px) {
-  .pano { --item-w: 76vw; }
+  .pano { --item-w: 72vw; }
 }
 @media (prefers-reduced-motion: reduce) {
   .pano { overflow-x: auto; mask-image: none; }
