@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import clubLogo from '../assets/iteam/logo.jpg';
+import introImage from '../assets/iteam/bg.png';
 import Hero from '../components/home/Hero.jsx';
 import Why from '../components/home/Why.jsx';
 import Fields from '../components/home/Fields.jsx';
@@ -27,7 +27,7 @@ export default function Home() {
           role="status"
           aria-label="Loading homepage"
         >
-          <img src={clubLogo} alt="" aria-hidden="true" />
+          <img src={introImage} alt="" aria-hidden="true" />
         </div>
       )}
       <Hero />
