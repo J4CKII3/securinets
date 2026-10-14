@@ -8,7 +8,6 @@ export default function Hero() {
       <video
         className="hero-video"
         src={homepageVideo}
-        poster={homepageBackground}
         autoPlay
         loop
         muted
