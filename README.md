@@ -9,6 +9,12 @@ React + Vite static site.
 Upload the contents of `dist/` to any static host (GitHub Pages, Netlify, Vercel...).
 Routing uses the URL hash (#/workshops), so no server setup is needed.
 
+## GitHub Pages
+
+Pushing to `main` builds and deploys the site through GitHub Actions. Once the first
+deployment completes, the site is available at
+https://j4ckii3.github.io/securinets/.
+
 ## What to edit
 
 | What                         | Where                                              |
