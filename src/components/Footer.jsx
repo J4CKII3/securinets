@@ -54,7 +54,7 @@ export default function Footer() {
           </div>
         </div>
         <p className="footer-rights">
-          &copy; {new Date().getFullYear()} {site.name}. All Rights Reserved.
+          &copy; {new Date().getFullYear()} Securinets Iteam University. All Rights Reserved.
         </p>
       </div>
     </footer>
