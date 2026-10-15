@@ -1,0 +1,129 @@
+/* Motion layer. Animation only: no colours, fonts, spacing or content are changed.
+   Pieces are revealed with clip-path and opacity ONLY (never size/position/transform),
+   so nothing can shift the layout or the scroll position.
+   Visitors with prefers-reduced-motion get none of it. */
+
+:root {
+  --ease-wipe: cubic-bezier(0.65, 0, 0.15, 1);
+  --ease-out: cubic-bezier(0.2, 0.75, 0.2, 1);
+}
+
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes wipe-x {
+  from { clip-path: inset(-6px 100% -6px -6px); }
+  to { clip-path: inset(-6px); }
+}
+@keyframes intro-pop {
+  0% { opacity: 0; transform: scale(0.94); }
+  35% { opacity: 1; transform: scale(1); }
+  100% { opacity: 1; transform: scale(1.03); }
+}
+@keyframes glitch {
+  0%   { transform: translateX(-3px); text-shadow: 3px 0 var(--signal-hi), -3px 0 rgba(255, 255, 255, 0.55); }
+  18%  { transform: translateX(3px);  text-shadow: -3px 0 var(--signal-hi), 3px 0 rgba(255, 255, 255, 0.55); }
+  34%  { transform: none;             text-shadow: none; }
+  52%  { transform: translateX(-2px); text-shadow: 2px 0 var(--signal-hi), -2px 0 rgba(255, 255, 255, 0.45); }
+  70%  { transform: translateX(2px);  text-shadow: -2px 0 var(--signal-hi); }
+  100% { transform: none;             text-shadow: none; }
+}
+@keyframes scan-once {
+  from { top: -150px; opacity: 1; }
+  to { top: 100%; opacity: 1; }
+}
+@keyframes ring { from { opacity: 0.85; transform: scale(1); } to { opacity: 0; transform: scale(1.45); } }
+@keyframes dot-pop { from { transform: scale(0); } to { transform: scale(1); } }
+@keyframes cell-pop { 0% { transform: scale(0.86); } 100% { transform: scale(1); } }
+
+/* ------------------------------------------------------------------ */
+/* Scroll safety                                                       */
+/* ------------------------------------------------------------------ */
+/* the browser must never "helpfully" move the page when pieces appear */
+html, body { overflow-anchor: none; }
+/* while the loading intro plays the page can't be scrolled (and never jumps) */
+.motion-ready { scrollbar-gutter: stable; }
+html.motion-ready:has(.home-intro) { overflow: hidden; }
+
+/* ------------------------------------------------------------------ */
+/* Loading intro                                                       */
+/* ------------------------------------------------------------------ */
+.home-intro img { animation: intro-pop 1.9s var(--ease-out) both; }
+
+/* ------------------------------------------------------------------ */
+/* Hero: the headline is decoded by JS, so the old rise-in steps aside  */
+/* ------------------------------------------------------------------ */
+.motion-ready .hero h1 .line > span { animation: none; }
+.hero h1 .line > span[data-decoding] { white-space: nowrap; }
+.motion-ready .hero h1 .line > span[data-glitch] { animation: glitch 0.72s steps(1, end); }
+
+/* paragraph, buttons and corner logo settle in once the first line has resolved */
+.motion-ready .hero-lede,
+.motion-ready .hero-actions,
+.motion-ready .hero-background { transition: opacity 0.9s ease; }
+.motion-ready .hero:not([data-ready]) .hero-lede,
+.motion-ready .hero:not([data-ready]) .hero-actions,
+.motion-ready .hero:not([data-ready]) .hero-background { opacity: 0; }
+.motion-ready .hero[data-ready] .hero-actions { transition-delay: 0.15s; }
+.motion-ready .hero[data-ready] .hero-background { animation: fade-in 1.4s ease backwards; }
+
+/* one scan across the hero when the headline is fully decoded, then it stops */
+.motion-ready .hero::after {
+  content: ''; position: absolute; z-index: 1; left: 0; right: 0; top: -150px; height: 150px;
+  opacity: 0; pointer-events: none;
+  background: linear-gradient(180deg, transparent, rgba(24, 112, 168, 0.08) 70%, rgba(24, 112, 168, 0.32) 99%, transparent 100%);
+}
+/* scan sweep removed on purpose */
+.motion-ready .hero::after { display: none; }
+
+/* ------------------------------------------------------------------ */
+/* Build on scroll: --p (0 -> 1) is written by src/lib/motion.js        */
+/* ------------------------------------------------------------------ */
+.motion-ready [data-build='fade']:not([data-done]) { opacity: var(--p, 0); }
+
+.motion-ready [data-build='x']:not([data-done]) {
+  clip-path: inset(-6px calc((1 - var(--p, 0)) * 100%) -6px -6px);
+}
+.motion-ready [data-build='y']:not([data-done]) {
+  clip-path: inset(-6px -6px calc((1 - var(--p, 0)) * 100%) -6px);
+}
+.motion-ready [data-build='c']:not([data-done]) {
+  clip-path: inset(-6px calc((1 - var(--p, 0)) * 50%));
+}
+
+/* titles are built in two pieces: the accent line draws first, then the title wipes in */
+.motion-ready [data-build='title']:not([data-done]) {
+  clip-path: inset(-6px calc((1 - clamp(0, (var(--p, 0) - 0.3) / 0.7, 1)) * 100%) -6px -6px);
+}
+.motion-ready .h2[data-build]:not([data-done])::before {
+  transform-origin: left;
+  transform: scaleX(min(1, calc(var(--p, 0) * 3.3)));
+}
+
+/* ------------------------------------------------------------------ */
+/* Calendar: today pings three times when it scrolls into view         */
+/* ------------------------------------------------------------------ */
+.motion-ready .cal-day.is-today::after {
+  content: ''; position: absolute; inset: -1px; border-radius: 8px; pointer-events: none;
+  border: 1px solid var(--signal-hi); opacity: 0;
+}
+.motion-ready .cal-day.is-today[data-ping-in]::after { animation: ring 2s ease-out 3; }
+
+/* ------------------------------------------------------------------ */
+/* Inner pages: answers to navigation / choosing a path                */
+/* ------------------------------------------------------------------ */
+.page-head h1 { animation: wipe-x 0.9s var(--ease-wipe) backwards; }
+.page-head p { animation: fade-in 0.7s ease 0.3s backwards; }
+.path-panel { animation: fade-in 0.35s ease backwards; }
+
+/* timeline dots appear exactly as the line draws past them (line fill: 0.9s, 0.1s delay) */
+.steps li::before { animation: dot-pop 0.4s cubic-bezier(0.3, 1.6, 0.5, 1) backwards; }
+.steps li:nth-child(1)::before { animation-delay: 0.1s; }
+.steps li:nth-child(2)::before { animation-delay: 0.17s; }
+.steps li:nth-child(3)::before { animation-delay: 0.28s; }
+.steps li:nth-child(n + 4)::before { animation-delay: 0.46s; }
+
+/* CTF scoreboard: a solved cell confirms the click */
+.board-cell.is-solved { animation: cell-pop 0.4s cubic-bezier(0.3, 1.6, 0.5, 1); }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero::after { display: none; }
+}

@@ -1,0 +1,85 @@
+/* 3D depth layer. Pairs with src/lib/depth.js.
+   Only transforms / opacity / pseudo-elements are used: no colours, fonts, spacing or content
+   change, so layout can't shift. Everything is scoped to .depth-ready, which depth.js only adds
+   for visitors without prefers-reduced-motion. Remove the import in main.jsx to switch it off. */
+
+@keyframes depth-grid-run {
+  from { transform: perspective(520px) rotateX(64deg) translateY(0); }
+  to   { transform: perspective(520px) rotateX(64deg) translateY(64px); }
+}
+
+/* ------------------------------------------------------------------ */
+/* Hero: layers sit at different depths and follow mouse + scroll       */
+/* (--hx / --hy = mouse -1..1, --hs = scroll px, written by depth.js)   */
+/* ------------------------------------------------------------------ */
+.depth-ready .hero { perspective: 1100px; perspective-origin: 62% 45%; }
+
+/* far layer: the video drifts opposite to the mouse and tilts a little */
+.depth-ready .hero-video {
+  transform-origin: 40% 50%;
+  transform:
+    translate3d(calc(var(--hx, 0) * -18px), calc(var(--hy, 0) * -12px + var(--hs, 0) * 0.1px), 0)
+    rotateY(calc(var(--hx, 0) * 3deg))
+    rotateX(calc(var(--hy, 0) * -2deg))
+    scale(1.12);
+  will-change: transform;
+}
+
+/* middle layer: the copy moves a little, each piece at its own rate */
+/* near layer: the corner logo floats toward you and turns with the pointer */
+.depth-ready .hero-background {
+  transform:
+    translate3d(calc(var(--hx, 0) * 26px), calc(var(--hy, 0) * 18px + var(--hs, 0) * 0.2px), 60px)
+    rotateY(calc(var(--hx, 0) * -14deg))
+    rotateX(calc(var(--hy, 0) * 10deg));
+  scale: 1;
+  transition: opacity 0.9s ease, filter 0.3s ease, scale 0.3s ease;
+  will-change: transform;
+}
+.depth-ready .hero-background:hover { scale: 1.05; }
+
+/* receding grid floor: one extra decorative plane, compositor-only animation */
+.depth-ready .hero::before {
+  content: ''; position: absolute; z-index: 2; left: -30%; right: -30%; bottom: 0; height: 62%;
+  pointer-events: none; opacity: 0.4;
+  background:
+    linear-gradient(rgba(24, 112, 168, 0.4) 1px, transparent 1px) 0 0 / 64px 64px,
+    linear-gradient(90deg, rgba(24, 112, 168, 0.4) 1px, transparent 1px) 0 0 / 64px 64px;
+  transform-origin: 50% 100%;
+  transform: perspective(520px) rotateX(64deg);
+  -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent 85%);
+  mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent 85%);
+  animation: depth-grid-run 4s linear infinite;
+  transition: opacity 1.4s ease;
+}
+.motion-ready.depth-ready .hero:not([data-ready])::before { opacity: 0; }
+@media (max-width: 720px) {
+  .depth-ready .hero::before { height: 45%; opacity: 0.3; }
+}
+
+/* ------------------------------------------------------------------ */
+/* Photo strips: curved gallery (transforms are written by depth.js)    */
+/* ------------------------------------------------------------------ */
+.depth-ready .pano-item { will-change: transform, opacity; backface-visibility: hidden; }
+
+/* ------------------------------------------------------------------ */
+/* Responsive                                                           */
+/* ------------------------------------------------------------------ */
+@media (max-width: 900px) {
+  .depth-ready .hero-video {
+    transform: translate3d(0, calc(var(--hs, 0) * 0.08px), 0) scale(1.06);
+  }
+  .depth-ready .hero-background {
+    transform: translate3d(0, calc(var(--hs, 0) * 0.15px), 0);
+  }
+}
+@media (max-width: 720px) {
+  /* no decorative floor on phones: keeps the hero text clean and light to draw */
+  .depth-ready .hero::before { display: none; }
+}
+/* very narrow phones: the decoding headline must never be wider than the screen */
+@media (max-width: 360px) {
+  .hero h1 { font-size: 1.65rem; }
+}
+/* hero never wider than the viewport, whatever the 3D layers do */
+.hero { max-width: 100vw; }

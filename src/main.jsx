@@ -6,6 +6,10 @@ import './styles/base.css';
 import './styles/home.css';
 import './styles/pages.css';
 import './styles/cyber.css';
+import './styles/motion.css';
+import './styles/depth.css';
+import { initMotion } from './lib/motion.js';
+import { initDepth } from './lib/depth.js';
 
 const favicon = document.querySelector('link[rel="icon"]');
 favicon.href = siteIcon;
@@ -16,3 +20,6 @@ createRoot(document.getElementById('root')).render(
     <App />
   </React.StrictMode>
 );
+
+initMotion();
+initDepth();
