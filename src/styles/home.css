@@ -52,7 +52,10 @@
 .hero-lede { max-width: 33rem; font-size: clamp(1.05rem, 1.6vw, 1.25rem); color: #d2d8e8; margin-bottom: 2.25rem; }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
 @media (max-width: 720px) {
-  .hero-background { top: 0.75rem; right: 0.75rem; width: clamp(82px, 24vw, 125px); opacity: 0.24; }
+  .hero-background {
+    top: 0.75rem; right: 0.75rem; width: clamp(108px, 32vw, 145px);
+    opacity: 0.9; filter: drop-shadow(0 0 0.75rem rgba(10, 10, 20, 0.8));
+  }
   .hero-background:hover { opacity: 0.36; }
   .hero-video {
     width: 100%; opacity: 0.58; object-position: center 54%;
